@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-
+    <display-name>iclsi</display-name>
     <servlet>
         <servlet-name>iclsi example</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -12,15 +12,18 @@
             <param-name>com.sun.jersey.config.property.packages</param-name>
             <param-value>com.iclsi.example</param-value>
         </init-param>
-        
+
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
             <param-value>true</param-value>
         </init-param>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>iclsi example</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/iclsi/*</url-pattern>
     </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>
