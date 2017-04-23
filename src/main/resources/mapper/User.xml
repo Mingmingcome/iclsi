@@ -4,13 +4,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iclsi.dao.UserDao">
 
-    <select id="findById" parameterType="long">
-    SELECT
-      name
-    FROM
-      user
-    WHERE
-      user_id = #{id}
+    <select id="findById" resultType="com.iclsi.entity.User" parameterType="long">
+        SELECT
+          user_id, name, password, phone_number, email
+        FROM
+          user
+        WHERE
+          user_id = #{id}
     </select>
 
+    <insert id="insert" parameterType="com.iclsi.entity.User">
+        INSERT INTO
+          user (name, password, phone_number, email)
+        VALUES
+          (#{name}, #{password}, #{phoneNumber}, #{email})
+    </insert>
+
+    <select id="queryUserByEmail" resultType="com.iclsi.entity.User">
+        SELECT
+          user_id, name, password, phone_number, email
+        FROM
+          user
+        WHERE
+          email = #{email}
+    </select>
 </mapper>

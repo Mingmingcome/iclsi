@@ -12,6 +12,6 @@ public class HelloWorld {
     @Produces(MediaType.TEXT_PLAIN)
     //@Produces("text/plain") is OK
     public String getMessage(){
-        return "Hello World!";
+        return "Hello Iclsi!";
     }
 }

@@ -6,34 +6,32 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd">
-    <!-- 配置整合mybatis过程 -->
+    <!-- 扫描xd.ws.dao包下所有标注@Repository的DAO组件 -->
+    <context:component-scan base-package="com.iclsi.dao" />
 
+    <!-- 配置整合mybatis过程 -->
     <!-- 1:配置数据库相关参数 properties的属性：${url} -->
-    <bean id="propertyConfigure" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>classpath:jdbc.properties</value>
-            </list>
-        </property>
-    </bean>
+    <context:property-placeholder location="classpath:jdbc.properties" />
 
     <!-- 2:数据库连接池属性 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <!-- 配置连接池属性 -->
-        <property name="driverClass" value="${jdbc.driver}"/>
-        <property name="jdbcUrl" value="${jdbc.url}"/>
-        <property name="user" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-
-        <!-- 配置连接池私有属性 -->
-        <property name="maxPoolSize" value="30"/>
-        <property name="minPoolSize" value="10"/>
-        <!-- 关闭连接后不自动commit -->
-        <property name="autoCommitOnClose" value="false"/>
-        <!-- 获取连接超时时间 -->
-        <property name="checkoutTimeout" value="120"/>
-        <!-- 当获取连接失败重试次数 -->
-        <property name="acquireRetryAttempts" value="2"/>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="initialSize" value="3" /><!-- 初始化连接数目 -->
+        <property name="maxActive" value="50" /><!-- 连接池支持的最大连接数 -->
+        <property name="maxIdle" value="45"/><!-- 连接池中最多可空闲maxIdle个连接 -->
+        <property name="minIdle" value="1"/><!-- 连接池中最少空闲maxIdle个连接 -->
+        <property name="maxWait" value="120000"/><!-- 连接池中连接用完时，新的请求等待时间，毫秒 -->
+        <property name="validationQuery" value="SELECT 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="3600000"/>
+        <property name="numTestsPerEvictionRun" value="2"/>
+        <property name="minEvictableIdleTimeMillis" value="120000"/>
+        <property name="removeAbandoned" value="true" />
+        <property name="removeAbandonedTimeout" value="6000000" />
     </bean>
 
     <!-- 约定大于配置 -->

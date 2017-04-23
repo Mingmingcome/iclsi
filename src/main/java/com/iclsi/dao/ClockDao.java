@@ -2,12 +2,14 @@ package com.iclsi.dao;
 
 import com.iclsi.entity.Clock;
 import com.iclsi.entity.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by luhaoming123 on 2016/12/22.
  */
+@Repository
 public interface ClockDao {
 
     /**

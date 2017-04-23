@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
-
 import static org.junit.Assert.*;
 
 /**
@@ -25,11 +23,22 @@ public class UserDaoTest {
 
     @Test
     public void findById() throws Exception {
-
         long id = 1;
-        String user= userDao.findById(id);
-        System.out.print(user);
+        User user = userDao.findById(id);
+        System.out.println(user.getName());
+    }
 
+    @Test
+    public void insert() throws Exception {
+        User user = new User(3, "lu", "mingming", "12345678910", "123@qq.com");
+        userDao.insert(user);
+    }
+
+    @Test
+    public void queryUserByEmail() throws Exception {
+        String email = "12345@qq.com";
+        User user = userDao.queryUserByEmail(email);
+        System.out.println(user);
     }
 
 }

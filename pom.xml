@@ -65,21 +65,23 @@
         </dependency>
 
         <!-- 2.数据库 -->
+        <!-- DBCP数据源配置 -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
+            <version>1.6</version>
+        </dependency>
+
+        <!-- mysql -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.37</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-        <groupId>c3p0</groupId>
-        <artifactId>c3p0</artifactId>
-        <version>0.9.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.0.28</version>
+            <version>5.1.6</version>
         </dependency>
 
         <!-- DAO: MyBatis -->
@@ -107,7 +109,17 @@
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.5.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <version>2.5.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
             <version>2.5.4</version>
         </dependency>
         <dependency>
@@ -161,7 +173,12 @@
             <artifactId>spring-test</artifactId>
             <version>4.2.2.RELEASE</version>
         </dependency>
-    </dependencies>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+    </dependencies>
 
 </project>

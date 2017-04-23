@@ -1,12 +1,14 @@
 package com.iclsi.dao;
 
 import com.iclsi.entity.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by luhaoming123 on 2016/12/22.
  */
+@Repository
 public interface UserDao {
 
     /**
@@ -14,7 +16,7 @@ public interface UserDao {
      * @param id
      * @return
      */
-    public String findById(long id);
+    public User findById(long id);
 
     /**
      * 根据用户名称name查询用户信息
@@ -41,4 +43,11 @@ public interface UserDao {
      */
     public void update(User user);
 
+    /**
+     * 根据email查询该email是否被注册过
+     *
+     * @param email
+     * @return
+     */
+    public User queryUserByEmail(String email);
 }
