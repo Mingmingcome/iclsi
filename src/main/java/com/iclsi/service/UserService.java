@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 有关用户的逻辑代码
  * Created by luhaoming123 on 2017/4/17.
@@ -58,5 +60,26 @@ public class UserService {
     private String getMD5(String origin) {
         String base = origin + "/" + salt;
         return DigestUtils.md5DigestAsHex(base.getBytes());
+    }
+
+    /**
+     *
+     * @param request
+     * @param user
+     * @return -1:用户不存在 0:登录不成功 1:登录成功
+     */
+    @Transactional
+    public int login(HttpServletRequest request, User user) {
+        User tmpUser = userDao.queryUserByEmail(user.getEmail());
+        if(tmpUser == null) {
+            return -1;
+        }
+        String password = getMD5(user.getPassword());
+        if(password.equals(tmpUser.getPassword())) {
+            request.getSession().setAttribute("user", tmpUser);
+            return 1;
+        }else {
+            return 0;
+        }
     }
 }
