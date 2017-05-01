@@ -13,11 +13,11 @@ import java.util.List;
 public interface ClockDao {
 
     /**
-     * 根据ID查询云锁信息
-     * @param id
+     * 根据锁ID查询云锁信息
+     * @param clockId
      * @return
      */
-    public Clock findById(long id);
+    public Clock findById(long clockId);
 
     /**
      * 根据云锁名称name查询云锁信息
@@ -34,9 +34,9 @@ public interface ClockDao {
 
     /**
      * 根据ID删除云锁
-     * @param id
+     * @param clockId
      */
-    public void delete(long id);
+    public void delete(long clockId);
 
     /**
      * 更新云锁

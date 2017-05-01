@@ -11,12 +11,26 @@ public class Clock {
 
     private String password;
 
+    private int state;
+
     public Clock() {
     }
 
     public Clock(long clockId, String name, String password) {
         this.clockId = clockId;
         this.name = name;
+        this.password = password;
+    }
+
+    public Clock(long clockId, String name, String password, int state) {
+        this.clockId = clockId;
+        this.name = name;
+        this.password = password;
+        this.state = state;
+    }
+
+    public Clock(long clockId, String password) {
+        this.clockId = clockId;
         this.password = password;
     }
 
@@ -44,12 +58,20 @@ public class Clock {
         this.password = password;
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         return "Clock{" +
-                "clockId=" + clockId +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
+                "clockId=\'" + clockId +
+                "\', name=\'" + name + '\'' +
+                ", password=\'" + password + '\'' + ",state=\'" + state +
                 '}';
     }
 }

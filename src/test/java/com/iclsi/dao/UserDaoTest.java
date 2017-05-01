@@ -30,7 +30,7 @@ public class UserDaoTest {
 
     @Test
     public void insert() throws Exception {
-        User user = new User(3, "lu", "mingming", "12345678910", "123@qq.com");
+        User user = new User("lu", "mingming", "12345678910", "123@qq.com");
         userDao.insert(user);
     }
 

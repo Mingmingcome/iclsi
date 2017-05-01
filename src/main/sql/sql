@@ -10,6 +10,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS clock;
 DROP TABLE IF EXISTS user_clock;
+DROP TABLE IF EXISTS clock_record;
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- 创建用户表
@@ -24,7 +25,7 @@ CREATE TABLE user(
 
 -- 创建云锁表
 CREATE TABLE clock(
-  clock_id BIGINT NOT NULL AUTO_INCREMENT,
+  clock_id BIGINT NOT NULL,
   name VARCHAR(20),
   password VARCHAR(32),
   state TINYINT COMMENT '云锁状态：0 = 云锁关(close)，1 = 云锁开(open)',
@@ -36,8 +37,20 @@ CREATE TABLE user_clock(
   user_clock_id BIGINT NOT NULL AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
   clock_id BIGINT NOT NULL,
-  authority TINYINT COMMENT '权限信息：0 = 管理员，1 = 普通用户',
+  authority TINYINT COMMENT '权限信息：0 = 管理员，1 = 高级用户， 2 = 普通用户',
   PRIMARY KEY (user_clock_id),
+  FOREIGN KEY (user_id) REFERENCES user(user_id),
+  FOREIGN KEY (clock_id) REFERENCES clock(clock_id)
+);
+
+-- 创建云锁开锁记录表
+CREATE TABLE clock_record(
+  clock_record_id BIGINT NOT NULL AUTO_INCREMENT,
+  user_id BIGINT COMMENT '谁请求了开关锁',
+  clock_id BIGINT,
+  time TIMESTAMP,
+  state TINYINT COMMENT '开关锁记录：0 = 关锁，1 = 开锁',
+  PRIMARY KEY (clock_record_id),
   FOREIGN KEY (user_id) REFERENCES user(user_id),
   FOREIGN KEY (clock_id) REFERENCES clock(clock_id)
 );

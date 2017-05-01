@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>云锁云端系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrapValidator.min.css">
+    <script src="../js/jquery-3.1.0.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/bootstrapValidator.min.js"></script>
+
+
+
+    <style type="text/css">
+        body{
+            font-family: "Microsoft Yahei";
+            background-color: #f9f5ed;
+        }
+        .container{
+            position: relative;
+            top: 130px;
+        }
+        .container .row .form-title{
+            text-align: center;
+        }
+        .container .row .form-horizontal{
+            margin: 33px;
+            padding: 16px 33px;
+        }
+
+        .btn-block{
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        #register {
+            display: none;
+        }
+
+    </style>
+    <script>
+        $(function(){
+
+            $('#register,#login')
+                    .bootstrapValidator({
+                        fields: {
+                            email: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The email address is required and can\'t be empty'
+                                    },
+                                    emailAddress: {
+                                        message: 'The input is not a valid email address'
+                                    }
+                                }
+                            },
+                            password: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'The password is required and can\'t be empty'
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .on('success.form.bv', function(e) {
+                        // Prevent submit form
+                        e.preventDefault();
+                    });
+
+            // 注册
+            $("#register").submit(function () {
+                var email = $("#registerEmail").val();
+                var password = $("#registerPassword").val();
+                var confirm = $("#registerPasswordConfirm").val();
+                if(password != confirm) {
+                    $(".addition").innerHTML = "两次输入的密码不一致！请重新输入";
+                    return false;
+                }
+                var data = '{\"email\": \"' + email + '\",\"password\": \"' + password + '\"}';
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/iclsi/web/user/register",
+                    data: data,
+                    //dataType: 'json',
+                    contentType: "application/json;charset=utf-8;",
+                    success: function (result) {
+
+                        // console.log(result);
+                        if(result.register == -1) {
+                            // window.location.href = "https://www.google.com.hk";
+                            alert("用户已注册！请登录");
+                        }else if(result.register == 1) {
+                            alert("注册成功！")
+                        }else {
+                            alert("注册不成功！请重新注册");
+                        }
+                    }
+                });
+            });
+
+            // 登录
+            $("#login").submit(function () {
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var data = '{\"email\": \"' + email + '\",\"password\": \"' + password + '\"}';
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/iclsi/web/user/login",
+                    data: data,
+                    //dataType: 'json',
+                    contentType: "application/json;charset=utf-8;",
+                    success: function (result) {
+                        // console.log(result);
+                        if(result.login == -1) {
+                            // window.location.href = "https://www.google.com.hk";
+                            alert("用户不存在！请注册");
+                        }else if(result.login == 1) {
+                            alert("登录成功！")
+                        }else {
+                            alert("邮箱或者密码错误！请重新登录");
+                        }
+                    }
+                });
+            });
+
+            // 注册和登录的切换
+            $(".exchange").click(function () {
+                var hid = $("#register").css("display");
+                // console.log(hid);
+                if(hid == "block") {
+                    $("#register").css("display","none");
+                    $("#login").css("display","block");
+                }else {
+                    $("#login").css("display","none");
+                    $("#register").css("display","block");
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <form id="register" action="" class="form-horizontal thumbnail" method="post" target="nm_iframe">
+                <div class="form-title">
+                    <h3>云锁云端系统</h3>
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input type="email" id="registerEmail" name="email" class="form-control" placeholder="邮箱" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="registerPassword" name="password" class="form-control" placeholder="密码">
+                </div>
+                <div class="form-group">
+                    <label for="password">确认密码</label>
+                    <input type="password" id="registerPasswordConfirm" name="password" class="form-control" placeholder="确认密码">
+                </div>
+                <div class="addition"></div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">注册</button>
+                </div>
+                <div class="exchange">
+                    <p>已有账户？</p>
+                    <div class="btn btn-success btn-block">登录</div>
+                </div>
+            </form>
+            <form id="login" action="" class="form-horizontal thumbnail" method="post" target="nm_iframe">
+                <div class="form-title">
+                    <h3>云锁云端系统</h3>
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="邮箱" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="密码">
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<label for="">-->
+                        <!--<input type="checkbox" class="remember">记住我-->
+                    <!--</label>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">登录</button>
+                </div>
+                <div class="exchange">
+                    <p>还没有账户？</p>
+                    <div class="btn btn-success btn-block">注册</div>
+                </div>
+            </form>
+            <!-- 实现form表单提交不跳转不刷新 -->
+            <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
+        </div>
+    </div>
+</div>
+</body>
+</html>

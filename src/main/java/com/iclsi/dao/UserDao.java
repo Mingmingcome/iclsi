@@ -13,10 +13,10 @@ public interface UserDao {
 
     /**
      * 根据ID查询用户信息
-     * @param id
+     * @param userId
      * @return
      */
-    public User findById(long id);
+    public User findById(long userId);
 
     /**
      * 根据用户名称name查询用户信息

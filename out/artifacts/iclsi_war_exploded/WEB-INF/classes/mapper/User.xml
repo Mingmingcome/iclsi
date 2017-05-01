@@ -10,7 +10,7 @@
         FROM
           user
         WHERE
-          user_id = #{id}
+          user_id = #{userId}
     </select>
 
     <insert id="insert" parameterType="com.iclsi.entity.User">
