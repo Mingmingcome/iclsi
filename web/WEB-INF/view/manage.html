@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <title>云锁云端系统</title>
@@ -27,21 +27,93 @@
             list-style: none;
         }
 
-        .foot {
-            width: 100%;
-            position: absolute;
-            bottom: 3%;
-        }
-
-        p.operation {
+        div.operation {
             float: right;
         }
+
         div.clear {
             clear: both;
         }
+
+        #lockRegister {
+            display: none;
+        }
     </style>
     <script>
+        $(function () {
+            var userId = sessionStorage.getItem("userId");
+            var token = sessionStorage.getItem("token")
+            // 注册云锁
+           $(".lockRegister").click(function () {
+               $("#lockRegister").slideToggle();
+           });
+           $(".submitLock").click(function () {
+               var clockId = $("#clockId").val();
+               var password = $("#registerPassword").val();
+               var data = '{\"clockId\": \"' + clockId + '\",\"password\": \"' + password + '\"}';
+               $.ajax({
+                   type: "POST",
+                   url: "http://localhost:8080/iclsi/web/clock/register",
+                   data: data,
+                   //dataType: 'json',
+                   contentType: "application/json;charset=utf-8;",
+                   success: function (result) {
+                        if(result.register == 1) {
+                            location.reload(true);
+                        }else {
+                            alert("锁注册不成功！请重新注册");
+                        }
+                   }
+               });
+           });
 
+            // 查询所有的锁
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/iclsi/web/userClock/" + 1 + "/clockList",
+                beforeSend: function(request) {
+                    request.setRequestHeader("token", token);
+                },
+                success: function (clocks) {
+                    for(var i=0; i<clocks.length; i++) {
+                        if(clocks[i].authority == 0) {
+                            $(".clocks").append('<li><div class=\"lock\"><span>云锁&nbsp;' +
+                                    clocks[i].clock_id + '</span><div class=\"operation\"><div class=\"btn btn-default">' +
+                                    '<span class=\"glyphicon glyphicon-pencil\">&nbsp;修改密码</span></div><div class=\"btn btn-danger">' +
+                                    '<span class=\"glyphicon glyphicon-trash">&nbsp;删除</span></div><div class=\"btn btn-info\">' +
+                                    '<span class=\"glyphicon glyphicon-plus">&nbsp;添加用户</span></div><div class=\"btn btn-success">' +
+                                    '<span class=\"glyphicon glyphicon-th-list">&nbsp;显示用户</span></div></div><div class=\"clear\"></div></div></li>');
+                        }
+                    }
+                }
+            });
+
+            // 查询云锁相关联用户
+            $(".lock .glyphicon-th-list").click(function () {
+                var lock = $(this).closest("li");
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/iclsi/web/userClock/" + 1 + "/userList",
+                    beforeSend: function(request) {
+                        request.setRequestHeader("token", token);
+                    },
+                    success: function (users) {
+                        lock.append("<ul><li class=\'user\'></li></ul>")
+                        for(var i=0; i<users.length; i++) {
+                            if(users[i].authority != 0) {
+                                lock.append('<li><div class=\"lock\"><span>云锁&nbsp;' +
+                                        users[i].user_id + '</span><div class=\"operation\"><div class=\"btn btn-default">' +
+                                        '<span class=\"glyphicon glyphicon-pencil\">&nbsp;修改密码</span></div><div class=\"btn btn-danger">' +
+                                        '<span class=\"glyphicon glyphicon-trash">&nbsp;删除</span></div><div class=\"btn btn-info\">' +
+                                        '<span class=\"glyphicon glyphicon-plus">&nbsp;添加用户</span></div><div class=\"btn btn-success">' +
+                                        '<span class=\"glyphicon glyphicon-th-list">&nbsp;显示用户</span></div></div><div class=\"clear\"></div></div></li>');
+                            }
+                        }
+                    }
+                });
+            });
+
+        });
     </script>
 </head>
 <body>
@@ -70,49 +142,20 @@
     <!--for="",id="",name=""-->
     <div id="user" class="container tab-pane fade in active">
         <div class="row">
-            <div class="col-lg-4 col-lg-offset-4">
+            <div class="col-lg-8 col-lg-offset-2">
                 <!--ul>li*3>div.lock{锁 $}+ul>li.user{用户 $}*2-->
                 <!--ul>li*3>(div.lock>span{锁 $}+span{$})+ul>li.user>(span{用户 $}*2+span{$})-->
                 <!--ul>li*3>(div.lock>span{锁 $}+p.operation{$})+ul>li.user>(span{用户 $}*2+p.operation{$})-->
                 <!--ul>li*3>(div.lock>span{锁 $}+p.operation{$}+div.clear)+ul>li.user>(span{用户 $}+p.operation{$}+div.clear)*2-->
-                <ul>
+                <ul class="clocks">
                     <li>
                         <div class="lock"><span>锁 1</span>
                             <p class="operation">1</p>
                             <div class="clear"></div>
                         </div>
                         <ul>
-                            <li class="user"><span>用户 1</span>
-                                <p class="operation">1</p>
-                                <div class="clear"></div>
-                                <span>用户 2</span>
-                                <p class="operation">2</p>
-                                <div class="clear"></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="lock"><span>锁 2</span>
-                            <p class="operation">2</p>
-                            <div class="clear"></div>
-                        </div>
-                        <ul>
-                            <li class="user"><span>用户 1</span>
-                                <p class="operation">1</p>
-                                <div class="clear"></div>
-                                <span>用户 2</span>
-                                <p class="operation">2</p>
-                                <div class="clear"></div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="lock"><span>锁 3</span>
-                            <p class="operation">3</p>
-                            <div class="clear"></div>
-                        </div>
-                        <ul>
-                            <li class="user"><span>用户 1</span>
+                            <li class="user">
+                                <span>用户 1</span>
                                 <p class="operation">1</p>
                                 <div class="clear"></div>
                                 <span>用户 2</span>
@@ -122,6 +165,21 @@
                         </ul>
                     </li>
                 </ul>
+            </div>
+            <div class="col-lg-4 col-lg-offset-4">
+                <div class="btn btn-info lockRegister"><span class="glyphicon glyphicon-plus"></span>&nbsp;注册锁</div>
+                <hr>
+                <form id="lockRegister" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="clockId">云锁ID</label>
+                        <input type="number" id="clockId" placeholder="云锁ID" class="form-control"autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">密码</label>
+                        <input type="password" id="registerPassword" class="form-control" placeholder="密码">
+                    </div>
+                    <div class="btn btn-success btn-block submitLock">提交</div>
+                </form>
             </div>
         </div>
     </div>
@@ -147,7 +205,7 @@
     <!--咨询结束-->
 </div>
 <!--tab结束-->
-<div class="foot" align="center">
+<div class="footer" align="center">
 
     <hr>
     <p>西安电子科技大学</p>

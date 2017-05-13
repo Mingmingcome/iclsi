@@ -38,4 +38,11 @@
           clock_id = #{clockId}
     </delete>
 
+    <select id="queryAll" resultType="com.iclsi.entity.Clock">
+        SELECT
+          *
+        FROM
+         clock
+    </select>
+
 </mapper>

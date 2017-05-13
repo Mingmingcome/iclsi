@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"3="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible3="ie=edge">
+    <title>锁状态</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <script src="../js/jquery-3.1.0.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <style>
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft Yahei";
+        }
+
+        .cl{
+            height: 133px;
+            margin: 0 -1px 5px;
+            background-color: red;
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .op {
+            height: 133px;
+            margin: 0 -1px 5px;
+            background-color: green;
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+    <script>
+        $(function () {
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/web/clock/queryAll",
+                contentType: "application/json;charset=utf-8;",
+                success: function (clocks) {
+                    var len = clocks.length;
+                    for(var i=0; i<len; i++) {
+                        if(clocks[i].state == 0) {
+                            $(".row").append("<div class=\"col-md-3 thumbnail cl\">" + clocks[i].clockId +"</div>");
+                        }else if(clocks[i].state == 1) {
+                            $(".row").append("<div class=\"col-md-3 thumbnail op\">" + clocks[i].clockId + "</div>");
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h3>锁状态</h3>
+        </header>
+        <div class="row">
+            <!--<div class="col-md-3 thumbnail cl"></div>-->
+            <!--<div class="col-md-3 thumbnail cl"></div>-->
+            <!--<div class="col-md-3 thumbnail cl"></div>-->
+            <!--<div class="col-md-3 thumbnail cl"></div>-->
+        </div>
+    </div>
+</body>
+</html>

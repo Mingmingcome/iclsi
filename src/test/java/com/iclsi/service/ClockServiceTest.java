@@ -1,10 +1,13 @@
 package com.iclsi.service;
 
+import com.iclsi.entity.Clock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -36,6 +39,12 @@ public class ClockServiceTest {
         int result = clockService.register(clockId,password);
         int result1 = clockService.queryClockByClockId(clockId);
         assertEquals(result,result1);
+    }
+
+    @Test
+    public void queryAll() {
+        List<Clock> clocks = clockService.queryAll();
+        assertEquals("mingming",clocks.get(0).getName());
     }
 
 }

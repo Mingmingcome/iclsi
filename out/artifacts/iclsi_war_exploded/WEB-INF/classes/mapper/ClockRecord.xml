@@ -11,11 +11,36 @@
           (#{userId}, #{clockId}, #{state})
     </insert>
 
-    <delete id="delete" parameterType="long">
+    <delete id="deleteByClockId" parameterType="long">
         DELETE FROM
           clock_record
         WHERE
-          clock_record_id = #{clockRecordId}
+          clock_id = #{clockId}
     </delete>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+        clock_record
+        WHERE
+        clock_record_id = #{clockRecordId}
+    </delete>
+
+    <select id="findByClockId" parameterType="long" resultType="com.iclsi.entity.ClockRecord">
+        SELECT
+          *
+        FROM
+          clock_record
+        WHERE
+          clock_id = #{clockId}
+    </select>
+
+    <select id="findByClockRecordId" parameterType="long" resultType="com.iclsi.entity.ClockRecord">
+        SELECT
+        *
+        FROM
+        clock_record
+        WHERE
+        clock_record_id = #{clockRecordId}
+    </select>
 
 </mapper>

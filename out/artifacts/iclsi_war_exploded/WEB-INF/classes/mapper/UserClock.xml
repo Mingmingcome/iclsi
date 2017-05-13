@@ -4,4 +4,88 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iclsi.dao.UserClockDao">
 
+    <select id="findClockByUserId" resultType="java.util.Map">
+        SELECT
+          c.clock_id, c.password, c.state, c.name, uc.authority
+        FROM
+          clock as c
+        LEFT JOIN
+          user_clock as uc
+        ON
+          c.clock_id = uc.clock_id
+        WHERE
+          c.clock_id
+        IN
+        (SELECT clock_id FROM user_clock WHERE user_id = #{userId})
+    </select>
+
+    <select id="findUserByClockId" resultType="java.util.Map">
+        SELECT
+          u.user_id, u.email, u.name, u.password, u.phone_number, uc.authority
+        FROM
+          user as u
+        LEFT JOIN
+          user_clock as uc
+        ON
+          u.user_id = uc.user_id
+        WHERE
+          u.user_id
+        IN
+        (SELECT user_id FROM user_clock WHERE clock_id = #{clockId})
+    </select>
+
+    <select id="findByUserClockId" resultType="com.iclsi.entity.UserClock">
+        SELECT
+          *
+        FROM
+          user_clock
+        WHERE
+          user_clock_id = #{userClockId}
+    </select>
+
+    <insert id="insert" parameterType="com.iclsi.entity.UserClock">
+        INSERT INTO
+          user_clock (user_id, clock_id, authority)
+        VALUES
+          (#{userId}, #{clockId}, #{authority})
+    </insert>
+
+    <select id="findByClockIdAndUserId" resultType="com.iclsi.entity.UserClock">
+        SELECT
+          *
+        FROM
+          user_clock
+        WHERE
+          clock_id = #{clockId}
+          AND
+          user_id = #{userId}
+    </select>
+
+    <update id="update" parameterType="com.iclsi.entity.UserClock">
+        UPDATE
+          user_clock
+        SET
+          user_id = #{userId},
+          clock_id = #{clockId},
+          authority = #{authority}
+        WHERE
+          user_clock_id = #{userClockId}
+    </update>
+
+    <delete id="deleteByClockIdAndUserId">
+        DELETE FROM
+          user_clock
+        WHERE
+          clock_id = #{clockId}
+          AND
+          user_id = #{userId}
+    </delete>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM
+          user_clock
+        WHERE
+          clock_id = #{clockId}
+    </delete>
+
 </mapper>

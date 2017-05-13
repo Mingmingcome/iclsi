@@ -3,6 +3,8 @@ package com.iclsi.dao;
 import com.iclsi.entity.ClockRecord;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by luhaoming123 on 2017/4/26.
  */
@@ -19,7 +21,13 @@ public interface ClockRecordDao {
      * 根据云锁ID删除云锁开关记录
      * @param clockId
      */
-    public void delete(long clockId);
+    public void deleteByClockId(long clockId);
+
+    /**
+     * 根据clockRecordId删除ClockRecord记录
+     * @param clockRecordId
+     */
+    public void delete(long clockRecordId);
 
     /**
      * 更新云锁记录
@@ -32,5 +40,12 @@ public interface ClockRecordDao {
      * @param clockId
      * @return
      */
-    public ClockRecord findById(long clockId);
+    public List<ClockRecord> findByClockId(long clockId);
+
+    /**
+     *  根据clockRecordId查询云锁开关记录
+     * @param clockRecordId
+     * @return
+     */
+    public List<ClockRecord> findByClockRecordId(long clockRecordId);
 }

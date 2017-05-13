@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -21,7 +23,7 @@ public class ClockRecordDaoTest {
 
     @Test
     public void insert() throws Exception {
-        ClockRecord clockRecord = new ClockRecord(1,1,1);
+        ClockRecord clockRecord = new ClockRecord(1,1,0);
         clockRecordDao.insert(clockRecord);
     }
 
@@ -36,8 +38,9 @@ public class ClockRecordDaoTest {
     }
 
     @Test
-    public void findById() throws Exception {
-
+    public void findByClockId() throws Exception {
+        List<ClockRecord> clockRecords = clockRecordDao.findByClockId(1);
+        System.out.println(clockRecords);
     }
 
 }

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -29,7 +32,7 @@ public class ClockDaoTest {
 
     @Test
     public void insert() throws Exception {
-        Clock clock = new Clock(2,"mingming","password",0);
+        Clock clock = new Clock(3,"mingming","password",0);
         clockDao.insert(clock);
     }
 
@@ -38,4 +41,17 @@ public class ClockDaoTest {
         Clock clock = new Clock(2,"mingming","password",0);
         clockDao.update(clock);
     }
+
+    @Test
+    public void queryAll() throws Exception {
+        List<Clock> clock = clockDao.queryAll();
+        assertEquals(clock.get(0).getName(),"mingming");
+    }
+
+    @Test
+    public void delete() throws Exception {
+        clockDao.delete(2);
+        assertEquals(clockDao.findById(2),null);
+    }
+
 }

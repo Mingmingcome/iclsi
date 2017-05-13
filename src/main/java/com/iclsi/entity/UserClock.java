@@ -22,6 +22,12 @@ public class UserClock {
         this.clockId = clockId;
     }
 
+    public UserClock(long userId, long clockId, byte authority) {
+        this.userId = userId;
+        this.clockId = clockId;
+        this.authority = authority;
+    }
+
     public long getUserClockId() {
         return userClockId;
     }

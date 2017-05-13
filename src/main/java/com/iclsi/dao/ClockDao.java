@@ -44,4 +44,16 @@ public interface ClockDao {
      */
     public void update(Clock clock);
 
+    /**
+     * 更新云锁状态
+     * @param clockId
+     */
+    public void updateState(long clockId);
+
+    /**
+     * 查询所有的锁
+     * @return
+     */
+    public List<Clock> queryAll();
+
 }
