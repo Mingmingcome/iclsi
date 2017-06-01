@@ -14,14 +14,14 @@ public class ClockRecord {
 
     private long clockId;
 
-    private Timestamp time;
+    private String time;
 
     private int state;
 
     public ClockRecord() {
     }
 
-    public ClockRecord(long clockRecordId, long userId, long clockId, Timestamp time, int state) {
+    public ClockRecord(long clockRecordId, long userId, long clockId, String time, int state) {
         this.clockRecordId = clockRecordId;
         this.userId = userId;
         this.clockId = clockId;
@@ -29,7 +29,7 @@ public class ClockRecord {
         this.state = state;
     }
 
-    public ClockRecord(long userId, long clockId, Timestamp time, int state) {
+    public ClockRecord(long userId, long clockId, String time, int state) {
         this.userId = userId;
         this.clockId = clockId;
         this.time = time;
@@ -66,11 +66,11 @@ public class ClockRecord {
         this.clockId = clockId;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

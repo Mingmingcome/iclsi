@@ -70,7 +70,7 @@
             // 查询所有的锁
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/iclsi/web/userClock/" + 1 + "/clockList",
+                url: "http://localhost:8080/iclsi/web/userClock/" + 3 + "/clockList",
                 beforeSend: function(request) {
                     request.setRequestHeader("token", token);
                 },
@@ -89,29 +89,29 @@
             });
 
             // 查询云锁相关联用户
-            $(".lock .glyphicon-th-list").click(function () {
-                var lock = $(this).closest("li");
-                $.ajax({
-                    type: "GET",
-                    url: "http://localhost:8080/iclsi/web/userClock/" + 1 + "/userList",
-                    beforeSend: function(request) {
-                        request.setRequestHeader("token", token);
-                    },
-                    success: function (users) {
-                        lock.append("<ul><li class=\'user\'></li></ul>")
-                        for(var i=0; i<users.length; i++) {
-                            if(users[i].authority != 0) {
-                                lock.append('<li><div class=\"lock\"><span>云锁&nbsp;' +
-                                        users[i].user_id + '</span><div class=\"operation\"><div class=\"btn btn-default">' +
-                                        '<span class=\"glyphicon glyphicon-pencil\">&nbsp;修改密码</span></div><div class=\"btn btn-danger">' +
-                                        '<span class=\"glyphicon glyphicon-trash">&nbsp;删除</span></div><div class=\"btn btn-info\">' +
-                                        '<span class=\"glyphicon glyphicon-plus">&nbsp;添加用户</span></div><div class=\"btn btn-success">' +
-                                        '<span class=\"glyphicon glyphicon-th-list">&nbsp;显示用户</span></div></div><div class=\"clear\"></div></div></li>');
-                            }
-                        }
-                    }
-                });
-            });
+//            $(".lock .glyphicon-th-list").click(function () {
+//                var lock = $(this).closest("li");
+//                $.ajax({
+//                    type: "GET",
+//                    url: "http://localhost:8080/iclsi/web/userClock/" + 1 + "/userList",
+//                    beforeSend: function(request) {
+//                        request.setRequestHeader("token", token);
+//                    },
+//                    success: function (users) {
+//                        lock.append("<ul><li class=\'user\'></li></ul>")
+//                        for(var i=0; i<users.length; i++) {
+//                            if(users[i].authority != 0) {
+//                                lock.append('<li><div class=\"lock\"><span>云锁&nbsp;' +
+//                                        users[i].user_id + '</span><div class=\"operation\"><div class=\"btn btn-default">' +
+//                                        '<span class=\"glyphicon glyphicon-pencil\">&nbsp;修改密码</span></div><div class=\"btn btn-danger">' +
+//                                        '<span class=\"glyphicon glyphicon-trash">&nbsp;删除</span></div><div class=\"btn btn-info\">' +
+//                                        '<span class=\"glyphicon glyphicon-plus">&nbsp;添加用户</span></div><div class=\"btn btn-success">' +
+//                                        '<span class=\"glyphicon glyphicon-th-list">&nbsp;显示用户</span></div></div><div class=\"clear\"></div></div></li>');
+//                            }
+//                        }
+//                    }
+//                });
+//            });
 
         });
     </script>
@@ -125,9 +125,9 @@
         </div>
         <nav>
             <ul class="nav nav-justified nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#user">锁用户管理</a></li>
-                <li><a data-toggle="tab" href="#openClose">开关锁</a></li>
-                <li><a data-toggle="tab" href="#checkRecord">查看锁记录</a></li>
+                <li class="active"><a data-toggle="tab" href="#user">云锁用户管理</a></li>
+                <li><a data-toggle="tab" href="#openClose">开关云锁</a></li>
+                <li><a data-toggle="tab" href="#checkRecord">查看云锁记录</a></li>
                 <li><a data-toggle="tab" href="#push">推送</a></li>
                 <li><a data-toggle="tab" href="#completeInformation">完善个人信息</a></li>
                 <li><a href="login.html"><span class="glyphicon glyphicon-log-out"></span>退出</a></li>

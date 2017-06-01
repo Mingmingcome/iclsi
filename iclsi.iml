@@ -24,6 +24,9 @@
         </fileset>
       </configuration>
     </facet>
+    <facet type="WebServicesClient" name="WebServices Client">
+      <configuration ws.engine="Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" />
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -76,5 +79,9 @@
     <orderEntry type="library" name="Maven: net.minidev:json-smart:2.0-RC2" level="project" />
     <orderEntry type="library" name="Maven: net.minidev:asm:1.0-RC1" level="project" />
     <orderEntry type="library" name="Maven: asm:asm:3.3.1" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-bundle:1.18.3" level="project" />
+    <orderEntry type="library" name="JAX-WS-Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-bundle:1.18.3" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.jersey:jersey-bundle:1.18.3" level="project" />
   </component>
 </module>

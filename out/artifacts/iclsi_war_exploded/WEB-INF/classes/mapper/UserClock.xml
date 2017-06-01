@@ -6,32 +6,69 @@
 
     <select id="findClockByUserId" resultType="java.util.Map">
         SELECT
-          c.clock_id, c.password, c.state, c.name, uc.authority
+          uc.clock_id, uc.user_id, c.state, c.name,uc.authority
         FROM
-          clock as c
-        LEFT JOIN
           user_clock as uc
+        LEFT JOIN
+          clock as c
         ON
-          c.clock_id = uc.clock_id
+          uc.clock_id = c.clock_id AND uc.user_id = #{userId}
         WHERE
-          c.clock_id
+          uc.clock_id
         IN
         (SELECT clock_id FROM user_clock WHERE user_id = #{userId})
+        AND
+          uc.user_id = #{userId}
+    </select>
+
+    <select id="findClockByUserIdAndAuthority" resultType="java.util.Map">
+        SELECT
+        clock_id, password, state, name
+        FROM
+        clock
+        WHERE
+        clock_id
+        IN
+        (SELECT clock_id FROM user_clock WHERE user_id = #{userId} AND authority = #{authority})
     </select>
 
     <select id="findUserByClockId" resultType="java.util.Map">
         SELECT
-          u.user_id, u.email, u.name, u.password, u.phone_number, uc.authority
+         uc.user_id, uc.clock_id, u.email, u.name, u.phone_number,uc.authority
         FROM
           user as u
         LEFT JOIN
           user_clock as uc
         ON
-          u.user_id = uc.user_id
+          uc.user_id = u.user_id
         WHERE
-          u.user_id
+          uc.user_id
         IN
         (SELECT user_id FROM user_clock WHERE clock_id = #{clockId})
+        AND
+         uc.clock_id = #{clockId}
+    </select>
+
+    <select id="findVIPUserByClockId" resultType="java.util.Map">
+        SELECT
+        user_id, email, name, password, phone_number
+        FROM
+         user
+        WHERE
+        user_id
+        IN
+        (SELECT user_id FROM user_clock WHERE clock_id = #{clockId}  AND authority = 1)
+    </select>
+
+    <select id="findNormalUserByClockId" resultType="java.util.Map">
+        SELECT
+        user_id, email, name, password, phone_number
+        FROM
+         user
+        WHERE
+        user_id
+        IN
+        (SELECT user_id FROM user_clock WHERE clock_id = #{clockId}  AND authority = 2)
     </select>
 
     <select id="findByUserClockId" resultType="com.iclsi.entity.UserClock">

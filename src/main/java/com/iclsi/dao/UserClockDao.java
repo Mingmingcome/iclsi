@@ -22,11 +22,18 @@ public interface UserClockDao {
     public UserClock findByUserClockId(long userClockId);
 
     /**
-     * 根据用户名userId查找用户拥有的云锁
+     * 根据用户名userId查找用户相关联的全部云锁
      * @param userId
      * @return
      */
     public List<Clock> findClockByUserId(long userId);
+
+    /**
+     * 根据用户名userId查找用户拥有各种权限的云锁
+     * @param userId
+     * @return
+     */
+    public List<Clock> findClockByUserIdAndAuthority(@Param("userId") long userId, @Param("authority") byte authority);
 
     /**
      * 根据云锁id查询相关联的用户
@@ -34,6 +41,20 @@ public interface UserClockDao {
      * @return
      */
     public List<User> findUserByClockId(long clockId);
+
+    /**
+     * 根据云锁id查询相关联的高级用户
+     * @param clockId
+     * @return
+     */
+    public List<User> findVIPUserByClockId(long clockId);
+
+    /**
+     * 根据云锁id查询相关联的普通用户
+     * @param clockId
+     * @return
+     */
+    public List<User> findNormalUserByClockId(long clockId);
 
     /**
      * 通过clockId和userId查询UserClock记录

@@ -1,22 +1,22 @@
 package com.iclsi.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.iclsi.annotation.annotation.Authorization;
 import com.iclsi.entity.User;
 import com.iclsi.service.UserService;
+import com.iclsi.utils.Connector;
 import com.iclsi.utils.Constants;
 import com.iclsi.utils.JJwt;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class UserController extends BaseController {
     UserService userService;
 
     @ResponseBody
-    @RequestMapping(value = "/register", produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public String register(HttpServletRequest request, HttpServletResponse response, @RequestBody User user) {
         /*
             2017-4-18 19:51:41
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/login", produces = "application/json;charset=UTF-8;")
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8;")
     public String login(HttpServletRequest request,HttpServletResponse response,@RequestBody User user) {
         Map<String, Object> param = new HashMap<String, Object>();
         int login = userService.login(request,user);

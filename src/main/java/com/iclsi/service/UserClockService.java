@@ -27,14 +27,33 @@ public class UserClockService {
     @Autowired
     private UserDao userDao;
 
+
     /**
-     * 通过userId查询用户拥有的云锁
+     * 插入一条用户云锁记录
+     * @param userClock
+     */
+    public void inserUserClock(UserClock userClock) {
+        userClockDao.insert(userClock);
+    }
+
+    /**
+     * 通过userId查询用户相关联的所有云锁
      * @param userId
      * @return
      */
     @Transactional
     public List<Clock> queryClockByUserId(long userId) {
         return userClockDao.findClockByUserId(userId);
+    }
+
+    /**
+     * 通过userId查询用户相关联的所有云锁
+     * @param userId
+     * @return
+     */
+    @Transactional
+    public List<Clock> queryClockByUserIdAndAuthority(long userId, byte authority) {
+        return userClockDao.findClockByUserIdAndAuthority(userId, authority);
     }
 
     /**
@@ -48,6 +67,26 @@ public class UserClockService {
     }
 
     /**
+     * 通过clockId查询相关联的高级用户
+     * @param clockId
+     * @return
+     */
+    @Transactional
+    public List<User> queryVIPUserByClockId(long clockId) {
+        return userClockDao.findVIPUserByClockId(clockId);
+    }
+
+    /**
+     * 通过clockId查询相关联的普通用户
+     * @param clockId
+     * @return
+     */
+    @Transactional
+    public List<User> queryNormalUserByClockId(long clockId) {
+        return userClockDao.findNormalUserByClockId(clockId);
+    }
+
+    /**
      * 添加云锁用户
      * @param userClock
      * @return false:添加云锁用户成功 true:添加云锁用户失败
@@ -56,12 +95,18 @@ public class UserClockService {
     public boolean addUserClock(UserClock userClock) {
         long clockId = userClock.getClockId();
         long userId = userClock.getUserId();
+
+        // 云锁中存在该云锁
         if(clockDao.findById(clockId) == null) {
             return false;
         }
+
+        // 用户表中存在该用户
         if(userDao.findById(userId) == null) {
             return false;
         }
+
+        // 用户云锁表中不存在该云锁用户记录
         if(userClockDao.findByClockIdAndUserId(clockId, userId) == null) {
 
             userClockDao.insert(userClock);
@@ -108,4 +153,37 @@ public class UserClockService {
         return false;
     }
 
+    /**
+     * 验证权限是管理员或高级用户
+     * @param userId
+     * @param clockId
+     * @return false:普通用户 true:管理员或高级用户
+     */
+    public boolean AuthorityWithAdminAndVIP(long userId, long clockId) {
+        if(userClockDao.findByClockIdAndUserId(clockId, userId) == null) {
+            return false;
+        }
+        UserClock userClock = userClockDao.findByClockIdAndUserId(clockId, userId);
+        if (userClock.getAuthority() == 2) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 验证是否是管理员
+     * @param userId
+     * @param clockId
+     * @return false:高级用户或普通用户 true:管理员
+     */
+    public boolean AuthorityWithAdmin(long userId, long clockId) {
+        if(userClockDao.findByClockIdAndUserId(clockId, userId) == null) {
+            return false;
+        }
+        UserClock userClock = userClockDao.findByClockIdAndUserId(clockId, userId);
+        if (userClock.getAuthority() != 0) {
+            return false;
+        }
+        return true;
+    }
 }

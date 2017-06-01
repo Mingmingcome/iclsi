@@ -32,7 +32,7 @@ public class UserClockDaoTest {
 
     @Test
     public void findByClockIdAndUserId() throws Exception {
-        UserClock userClock = userClockDao.findByClockIdAndUserId(1,1);
+        UserClock userClock = userClockDao.findByClockIdAndUserId(121,3);
         System.out.println(userClock);
     }
 

@@ -6,6 +6,11 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/iclsi_war_exploded/META-INF/MANIFEST.MF" />
       </element>
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="JAX-WS-Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>

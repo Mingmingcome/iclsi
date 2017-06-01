@@ -86,6 +86,10 @@ public class ClockService {
      */
     @Transactional
     public boolean openClock(long clockId, long userId) {
+        // TODO: 2017/5/15
+        // 在这里应该加上UserClock中authority的判断
+        // 如果authority=0或者authority=1，可以执行开锁操作
+
         Clock clock = clockDao.findById(clockId);
         if(clock.getState() == 0) {
             clock.setState(1);
